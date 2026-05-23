@@ -1,0 +1,79 @@
+# Private Project
+
+# MINO PRIVACY SECURITY SPEC
+# Repository: user-privacy-core
+# Purpose: Personal data protection + end-to-end encryption model
+# Version: 1.0
+
+privacy_policy:
+  scope: "user-controlled devices and iCloud-linked services only"
+
+  core_principles:
+    - data_ownership: "User owns all generated and stored data"
+    - consent_required: true
+    - external_tracking: disabled
+    - cross_device_sharing: opt_in_only
+
+  encryption:
+    in_transit: "TLS 1.3"
+    at_rest: "AES-256-GCM"
+    key_management:
+      type: "device_secure_enclave_or_icloud_keychain"
+      export_allowed: false
+      recovery_requires: "explicit_user_verification"
+
+  identity_handling:
+    personal_identifiers:
+      - "name_fields_are_user_controlled_metadata_only"
+      - "no_identity_based_enforcement_rules"
+      - "no cross-platform identity locking"
+
+  iCloud_integration:
+    sync:
+      enabled: true
+      mode: "end_to_end_encrypted"
+      server_visibility: "zero_knowledge"
+
+    data_types_allowed:
+      - preferences
+      - encrypted_notes
+      - app_settings
+
+    data_types_prohibited_from_server_readability:
+      - private_content_plaintext
+      - behavioral_tracking_data
+
+  device_security:
+    background_access: disabled
+    telemetry: disabled
+    silent_data_transfer: blocked
+
+  github_usage_model:
+    repository_type: "configuration_and_policy_only"
+    secrets_storage: forbidden
+    public_exposure_protection: enabled
+
+  access_control:
+    authentication:
+      required: true
+      method:
+        - "biometric OR passcode"
+        - "iCloud authenticated session"
+
+    authorization_model: "least_privilege"
+
+  threat_model:
+    protects_against:
+      - unauthorized app access
+      - data interception in transit
+      - cross-device data leakage without consent
+
+    does_not_claim:
+      - immunity from all external systems
+      - control over third-party encryption
+      - global device enforcement
+
+  limitation_notice: >
+    This system applies only within the app and iCloud-linked services
+    controlled by the authenticated user. It cannot override external
+    systems, networks, or independent devices.
