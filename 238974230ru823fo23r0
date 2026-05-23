@@ -1,0 +1,154 @@
+# Private Project
+
+# MAEVE SECURITY HARDENING SPEC
+# Purpose: Defensive privacy + account protection
+# Scope: User-owned Apple/iCloud + GitHub ecosystem
+# Version: 1.0
+
+system:
+
+  owner_environment:
+    apple_id: "maeve.cooper1@icloud.com"
+
+  architecture:
+    model: "zero_trust"
+    default_policy: "deny"
+
+# =========================================================
+# ENCRYPTION
+# =========================================================
+
+encryption:
+
+  local_storage:
+    algorithm: "AES-256-GCM"
+
+  transport_security:
+    protocol: "TLS 1.3"
+
+  password_hashing:
+    algorithm: "Argon2id"
+
+  key_storage:
+    location: "Apple Secure Enclave"
+
+  iCloud_sync:
+    mode: "Advanced Data Protection Enabled"
+
+# =========================================================
+# ACCESS CONTROL
+# =========================================================
+
+authentication:
+
+  multi_factor_authentication: required
+
+  biometric_authentication:
+    enabled: true
+
+  device_approval:
+    new_device_requires_manual_approval: true
+
+  session_management:
+    revoke_unknown_sessions: true
+    short_session_timeout: true
+
+# =========================================================
+# 50-LAYER DEFENSIVE SECURITY STACK
+# =========================================================
+
+security_layers:
+
+  # Network Security
+  - firewall_default_deny
+  - encrypted_dns
+  - vpn_for_untrusted_networks
+  - suspicious_ip_blocking
+  - geo_anomaly_detection
+  - intrusion_detection
+  - intrusion_prevention
+  - anti_ddos_filtering
+  - network_traffic_monitoring
+  - remote_access_disabled
+
+  # Device Hardening
+  - secure_boot_enabled
+  - os_auto_updates
+  - app_sandboxing
+  - signed_apps_only
+  - malware_scanning
+  - usb_restricted_mode
+  - bluetooth_hardening
+  - screen_lock_timeout
+  - encrypted_backups
+  - kernel_integrity_protection
+
+  # Account Security
+  - hardware_security_key_support
+  - password_manager_required
+  - impossible_travel_detection
+  - failed_login_rate_limiting
+  - breach_monitoring
+  - login_alert_notifications
+  - account_recovery_lockdown
+  - trusted_device_registry
+  - session_anomaly_detection
+  - forced_reauthentication_for_sensitive_actions
+
+  # Privacy Protections
+  - telemetry_minimization
+  - ad_tracking_disabled
+  - browser_fingerprint_reduction
+  - tracker_blocking
+  - cookie_isolation
+  - microphone_background_blocking
+  - camera_background_blocking
+  - location_opt_in_only
+  - zero_knowledge_storage
+  - metadata_minimization
+
+  # Monitoring + Recovery
+  - encrypted_audit_logs
+  - secure_backup_rotation
+  - ransomware_protection
+  - phishing_detection
+  - integrity_monitoring
+  - unauthorized_change_alerts
+  - emergency_lock_mode
+  - automatic_session_revocation
+  - secure_restore_validation
+  - anomaly_based_account_lock
+
+# =========================================================
+# GITHUB SECURITY MODEL
+# =========================================================
+
+github:
+
+  private_repositories_only: true
+
+  branch_protection:
+    enabled: true
+
+  secret_scanning:
+    enabled: true
+
+  commit_signing:
+    required: true
+
+  dependency_scanning:
+    enabled: true
+
+# =========================================================
+# REALITY BOUNDARY
+# =========================================================
+
+limitations:
+
+  note: >
+    This configuration improves defensive security for user-owned
+    accounts and devices. It cannot control external systems,
+    override all other encryption, or guarantee protection from
+    every possible threat.
+
+    
