@@ -1,0 +1,63 @@
+# ejejejjenelekmenenenekelkrkrmemrmrn
+skkakejdjdbdbfbfnjdkekwkekkenejejejejejwjjssjej
+kekekekrjrjrjrjrkrkek
+
+from cryptography.fernet import Fernet
+import pyperclip
+import os
+import time
+
+KEY_FILE = "clipboard.key"
+VAULT_FILE = "clipboard.enc"
+
+# Generate/load encryption key
+if not os.path.exists(KEY_FILE):
+    with open(KEY_FILE, "wb") as f:
+        f.write(Fernet.generate_key())
+
+with open(KEY_FILE, "rb") as f:
+    key = f.read()
+
+cipher = Fernet(key)
+
+print("Secure clipboard monitor active")
+
+last = ""
+
+while True:
+    current = pyperclip.paste()
+
+    if current != last and current.strip():
+        encrypted = cipher.encrypt(current.encode())
+
+        with open(VAULT_FILE, "wb") as f:
+            f.write(encrypted)
+
+        print("Clipboard securely encrypted.")
+
+        last = current
+
+    time.sleep(2)
+
+name: MAEVELIZA Security
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: gitleaks/gitleaks-action@v2
+
+      - run: npm audit --audit-level=high || true
+
+Settings → Apple ID → iCloud → Advanced Data Protection
+
+Settings → Privacy & Security → Lockdown Mode
+
+Settings → Face ID & Passcode → Stolen Device Protection
