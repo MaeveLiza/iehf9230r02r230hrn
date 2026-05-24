@@ -1,0 +1,138 @@
+# lskenf dnjwkqklwksmdmcnnfndnsjkslsksslsksmsm
+skekkekwlwlekdkdkfmfnrn
+
+
+
+
+Settings → Privacy & Security → Microphone
+
+Settings → Privacy & Security → Bluetooth
+Settings → Privacy & Security → Local Network
+
+Settings → Apple ID → iCloud → Advanced Data Protection
+
+Settings → Privacy & Security → Lockdown Mode
+
+Settings → Face ID & Passcode → Stolen Device Protection
+
+from cryptography.fernet import Fernet
+import os
+
+KEY_FILE = "secure.key"
+
+if not os.path.exists(KEY_FILE):
+    with open(KEY_FILE, "wb") as f:
+        f.write(Fernet.generate_key())
+
+with open(KEY_FILE, "rb") as f:
+    key = f.read()
+
+cipher = Fernet(key)
+
+secret = b"Private MAEVELIZA data"
+
+encrypted = cipher.encrypt(secret)
+
+with open("private.enc", "wb") as f:
+    f.write(encrypted)
+
+print("Encrypted vault created.")
+
+name: MAEVELIZA Security Shield
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+
+  secret_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gitleaks/gitleaks-action@v2
+
+  dependency_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm audit --audit-level=high || true
+
+  codeql_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - uses: github/codeql-action/analyze@v3
+
+
+
+Settings → Privacy & Security → Microphone
+
+Settings → Privacy & Security → Bluetooth
+Settings → Privacy & Security → Local Network
+
+Settings → Apple ID → iCloud → Advanced Data Protection
+
+Settings → Privacy & Security → Lockdown Mode
+
+Settings → Face ID & Passcode → Stolen Device Protection
+
+from cryptography.fernet import Fernet
+import os
+
+KEY_FILE = "secure.key"
+
+if not os.path.exists(KEY_FILE):
+    with open(KEY_FILE, "wb") as f:
+        f.write(Fernet.generate_key())
+
+with open(KEY_FILE, "rb") as f:
+    key = f.read()
+
+cipher = Fernet(key)
+
+secret = b"Private MAEVELIZA data"
+
+encrypted = cipher.encrypt(secret)
+
+with open("private.enc", "wb") as f:
+    f.write(encrypted)
+
+print("Encrypted vault created.")
+
+name: MAEVELIZA Security Shield
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+
+  secret_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gitleaks/gitleaks-action@v2
+
+  dependency_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm audit --audit-level=high || true
+
+  codeql_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - uses: github/codeql-action/analyze@v3
+
