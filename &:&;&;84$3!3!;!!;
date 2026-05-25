@@ -1,0 +1,163 @@
+# sojdhehwjwjdndndn
+dkjdjsnsnsn
+dkjejwiwkeke
+
+import os
+import datetime
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+def generate_secure_key(passphrase: str, salt: bytes) -> bytes:
+    """
+    Derives a cryptographically strong 256-bit key from a user passphrase.
+    """
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=600000  # High iteration count to prevent brute-force attacks
+    )
+    return kdf.derive(passphrase.encode())
+
+def encrypt_file(file_path: str, passphrase: str):
+    """
+    Encrypts a local file using AES-256-GCM to prevent unauthorized access or modification.
+    """
+    if not os.path.exists(file_path):
+        print(f"Error: File '{file_path}' not found.")
+        return
+
+    with open(file_path, "rb") as f:
+        data = f.read()
+
+    # Generate unique cryptographic salt and initialization vector (nonce)
+    salt = os.urandom(16)
+    nonce = os.urandom(12)
+    
+    key = generate_secure_key(passphrase, salt)
+    aesgcm = AESGCM(key)
+    
+    # Encrypt the file data
+    ciphertext = aesgcm.encrypt(nonce, data, None)
+    
+    # Store the salt, nonce, and ciphertext together
+    with open(file_path + ".locked", "wb") as f:
+        f.write(salt + nonce + ciphertext)
+        
+    print(f"[SUCCESS] File secured and locked at: {file_path}.locked")
+
+def verify_and_decrypt_file(locked_file_path: str, passphrase: str) -> bytes:
+    """
+    Verifies file integrity and decrypts it. Fails if the code has been tampered with.
+    """
+    with open(locked_file_path, "rb") as f:
+        file_data = f.read()
+        
+    # Extract the cryptographic markers
+    salt = file_data[:16]
+    nonce = file_data[16:28]
+    ciphertext = file_data[28:]
+    
+    key = generate_secure_key(passphrase, salt)
+    aesgcm = AESGCM(key)
+    
+    try:
+        decrypted_data = aesgcm.decrypt(nonce, ciphertext, None)
+        print("[SUCCESS] Integrity verified. Data is authentic.")
+        return decrypted_data
+    except Exception:
+        print("[ALERT] Integrity check failed! The file has been modified or corrupted.")
+        raise
+def log_security_event(event_type: str, details: str, log_file: str = "security_audit.log"):
+    """
+    Appends an audited time-stamped entry to a local security log file.
+    """
+    timestamp = datetime.datetime.utcnow().isoformat()
+    log_entry = f"[{timestamp}] [EVENT: {event_type}] - {details}\n"
+    
+    with open(log_file, "a") as f:
+        f.write(log_entry)
+
+# Example logging of an integrity check
+log_security_event("INTEGRITY_CHECK", "Local filesystem monitored; no unauthorized alterations detected.")
+
+import os
+import datetime
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+def generate_secure_key(passphrase: str, salt: bytes) -> bytes:
+    """
+    Derives a cryptographically strong 256-bit key from a user passphrase.
+    """
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=600000  # High iteration count to prevent brute-force attacks
+    )
+    return kdf.derive(passphrase.encode())
+
+def encrypt_file(file_path: str, passphrase: str):
+    """
+    Encrypts a local file using AES-256-GCM to prevent unauthorized access or modification.
+    """
+    if not os.path.exists(file_path):
+        print(f"Error: File '{file_path}' not found.")
+        return
+
+    with open(file_path, "rb") as f:
+        data = f.read()
+
+    # Generate unique cryptographic salt and initialization vector (nonce)
+    salt = os.urandom(16)
+    nonce = os.urandom(12)
+    
+    key = generate_secure_key(passphrase, salt)
+    aesgcm = AESGCM(key)
+    
+    # Encrypt the file data
+    ciphertext = aesgcm.encrypt(nonce, data, None)
+    
+    # Store the salt, nonce, and ciphertext together
+    with open(file_path + ".locked", "wb") as f:
+        f.write(salt + nonce + ciphertext)
+        
+    print(f"[SUCCESS] File secured and locked at: {file_path}.locked")
+
+def verify_and_decrypt_file(locked_file_path: str, passphrase: str) -> bytes:
+    """
+    Verifies file integrity and decrypts it. Fails if the code has been tampered with.
+    """
+    with open(locked_file_path, "rb") as f:
+        file_data = f.read()
+        
+    # Extract the cryptographic markers
+    salt = file_data[:16]
+    nonce = file_data[16:28]
+    ciphertext = file_data[28:]
+    
+    key = generate_secure_key(passphrase, salt)
+    aesgcm = AESGCM(key)
+    
+    try:
+        decrypted_data = aesgcm.decrypt(nonce, ciphertext, None)
+        print("[SUCCESS] Integrity verified. Data is authentic.")
+        return decrypted_data
+    except Exception:
+        print("[ALERT] Integrity check failed! The file has been modified or corrupted.")
+        raise
+def log_security_event(event_type: str, details: str, log_file: str = "security_audit.log"):
+    """
+    Appends an audited time-stamped entry to a local security log file.
+    """
+    timestamp = datetime.datetime.utcnow().isoformat()
+    log_entry = f"[{timestamp}] [EVENT: {event_type}] - {details}\n"
+    
+    with open(log_file, "a") as f:
+        f.write(log_entry)
+
+# Example logging of an integrity check
+log_security_event("INTEGRITY_CHECK", "Local filesystem monitored; no unauthorized alterations detected.")
